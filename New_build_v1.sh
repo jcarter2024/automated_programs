@@ -128,8 +128,8 @@ echo "             WPS-------WRF----wrf_libs_intel"
 
 #Now build libraries
 build_zlib $bw_dir
-Echo "establish"
-Export Test="y" ############# TEMP
+echo "establish"
+export Test="y" ############# TEMP
 if $Test!="y"
 build_libpng $bw_dir
 build_hdf5 $bw_dir
