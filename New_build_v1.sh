@@ -6,7 +6,7 @@
 #	. Switch the path in each library build function for more flexibility
 
 
-####### FUNCTIONS
+####### FUNCTIONS ############################
 
 build_zlib() {
     wget https://zlib.net/fossils/zlib-1.2.11.tar.gz
@@ -94,7 +94,7 @@ get_jasper () {
     rm -r jasper-1.900.29
 }
 
-######## Code start
+######## Code start #####################
 
 module load intel/compiler/64/2019/19.0.4
 export CC=icc
@@ -123,43 +123,22 @@ fi
 
 #check if WRF and WPS exist
 cd Build_WRF/
-bw_dir=$(pwd) #/gpfs/home/jjcarter/wrf
-DIRECTORY="WRF/"
-if [ ! -d "$DIRECTORY" ]; then
-  read -p "$DIRECTORY does not exist. Shall I build it? " confirm
-  if [ $confirm == y ]; then 
-      mkdir WRF
-      git clone --recurse-submodules https://github.com/wrf-model/WRF WRF/
-  fi
-else
-  echo "$DIRECTORY is present"
-fi
-DIRECTORY="WPS/"
-if [ ! -d "$DIRECTORY" ]; then
-  read -p "$DIRECTORY does not exist. Shall I build it? "
-  if [ $confirm == y ]; then 
-      mkdir WPS
-      git clone https://github.com/wrf-model/WPS WPS/
-  fi
-else
-  echo "$DIRECTORY is present"
-fi
+bw_dir=$(pwd) #the location where Build_WRF is found (and built)
 
-echo "     ===============    "
-echo "     FILE structure"
-echo "     ===============    "
-echo " -->> $bw_dir"
-echo "                        |        "
-echo "                    Build_WRF    "
-echo "                        |        "
-echo "              WPS----------------WRF"
+mkdir WRF
+mkdir WPS
+mkdir wrf_libs_intel
 
-DIRECTORY="wrf_libs_intel"
-if [ ! -d "$DIRECTORY" ]; then
-    mkdir wrf_libs_intel
-else
-  echo "$DIRECTORY is present"
-fi
+echo "                 ===============    "
+echo "                  FILE structure    "
+echo "                 ===============    "
+echo " -->>              Git directory    "
+echo "                        |           "
+echo "               Build_WRF $bw_dir    "
+echo "                /       |       \   "
+echo "             WPS-------WRF----wrf_libs_intel"
+
+
 
 #Now build libraries
 build_zlib $bw_dir
