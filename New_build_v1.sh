@@ -25,7 +25,7 @@ build_zlib() {
         cd ../
         rm zlib-1.2.11.tar.gz
         rm -r zlib-1.2.11
-        rm ../zlibtar.log
+        rm zlibtar.log
     fi
 }
 
@@ -47,7 +47,7 @@ build_libpng () {
         echo "cleaning up"
         rm libpng-1.6.37.tar.gz
         rm -r libpng-1.6.37
-        rm ../libpngtar.log
+        rm libpngtar.log
     fi
 }
 
@@ -67,7 +67,7 @@ build_hdf5 () {
         echo "cleaning up"
         rm hdf5-1.12.0.tar.gz
         rm -r hdf5-1.12.0
-        rm ../hdf5tar.log
+        rm hdf5tar.log
     fi
 }
 
@@ -91,7 +91,7 @@ build_netcdf () {
         echo "cleaning up"
         rm netcdf-c-4.9.2.tar.gz
         rm -r netcdf-c-4.9.2
-        rm ../netcdftar.log
+        rm netcdftar.log
     fi
 
     wget https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz
@@ -109,7 +109,7 @@ build_netcdf () {
         echo "cleaning up"
         rm netcdf-fortran-4.6.1
         rm -r netcdf-fortran-4.6.1
-        rm ../netcdfFtar.log
+        rm netcdfFtar.log
     fi
 }
 
@@ -129,7 +129,7 @@ build_jasper () {
         echo "cleaning up"
         rm jasper-1.900.29.tar.gz
         rm -r jasper-1.900.29
-        rm ../jaspertar.log
+        rm jaspertar.log
     fi
 }
 
@@ -159,7 +159,7 @@ echo "                  FILE structure    "
 echo "                 ===============    "
 echo " -->>              Git directory    "
 echo "                        |           "
-echo "               Build_WRF $bw_dir    "
+echo "               Build_WRF (bw_dir)    "
 echo "                /       |       \   "
 echo "             WPS-------WRF----wrf_libs_intel"
 
@@ -167,11 +167,10 @@ echo "             WPS-------WRF----wrf_libs_intel"
 
 #Now build libraries
 build_zlib $bw_dir
-echo "establish"
-Test="y" ############# TEMP
-if [ $Test != "y" ]; then
 build_libpng $bw_dir
 build_hdf5 $bw_dir
+Test="y" ############# TEMP
+if [ $Test != "y" ]; then
 build_netcdf $bw_dir
 build_jasper $bw_dir
 
