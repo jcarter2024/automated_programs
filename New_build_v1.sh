@@ -107,21 +107,7 @@ echo "========================================="
 echo "       Checking your WRF build..."
 echo "========================================="
 
-DIRECTORY="Build_WRF/"
-if [ ! -d "$DIRECTORY" ]; then
-  read -p "$DIRECTORY does not exist. Shall I build it? " confirm
-  echo $confirm
-  if [ $confirm == y ]; then
-      mkdir Build_WRF
-  else
-  echo "Can't proceed without Build WRF"
-  kill -INT $$
-  fi
-else
-  echo "$DIRECTORY is present"
-fi
-
-#check if WRF and WPS exist
+mkdir Build_WRF
 cd Build_WRF/
 bw_dir=$(pwd) #the location where Build_WRF is found (and built)
 
