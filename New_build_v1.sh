@@ -25,6 +25,7 @@ build_zlib() {
         cd ../
         rm zlib-1.2.11.tar.gz
         rm -r zlib-1.2.11
+        rm ../zlibtar.log
     fi
 }
 
@@ -38,10 +39,15 @@ build_libpng () {
     echo "Making libpng..."
     make >& libpngmake.log
     make install >& libpnginstall.log
-    cd ../
-    echo "cleaning up"
-    rm libpng-1.6.37.tar.gz
-    rm -r libpng-1.6.37
+    if [ ! -f $bw_dir/wrf_libs_intel/include/zlib.h ]; then
+        echo "zlib build error"
+        kill -INT $$
+    else
+        cd ../
+        echo "cleaning up"
+        rm libpng-1.6.37.tar.gz
+        rm -r libpng-1.6.37
+        rm ../libpngtar.log
 }
 
 build_hdf5 () {
