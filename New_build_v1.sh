@@ -12,7 +12,7 @@ build_zlib() {
     wget https://zlib.net/fossils/zlib-1.2.11.tar.gz
     tar xvf zlib-1.2.11.tar.gz >& zlibtar.log
     cd zlib-1.2.11/
-    ./configure --prefix="$1/wrf_libs_intel/"
+    ./configure --prefix="$1/wrf_libs_intel/" >& zlibconfig.txt
     echo "Making zlib..."
     make >& zlibmake.log
     make install >& zlibinstall.log
@@ -35,19 +35,21 @@ build_libpng () {
     xz -d -v libpng-1.6.37.tar.xz >& libpngxz.log
     tar xvf libpng-1.6.37.tar >& libpngtar.log
     cd libpng-1.6.37/
-    ./configure --prefix="$1/wrf_libs_intel/"
+    ./configure --prefix="$1/wrf_libs_intel/" >& libpngconfig.txt
     echo "Making libpng..."
     make >& libpngmake.log
     make install >& libpnginstall.log
-    if [ ! -f $bw_dir/wrf_libs_intel/include/zlib.h ]; then
+    if [ ! -f $bw_dir/wrf_libs_intel/include/libpng16/pnglibconf.h ]; then
         echo "libpng build error"
         kill -INT $$
     else
         cd ../
         echo "cleaning up"
         rm libpng-1.6.37.tar.gz
+        rm libpng-1.6.37.tar
         rm -r libpng-1.6.37
         rm libpngtar.log
+        rm libpngxz.log
     fi
 }
 
@@ -55,11 +57,11 @@ build_hdf5 () {
     wget https://hdf-wordpress-1.s3.amazonaws.com/wp-content/uploads/manual/HDF5/HDF5_1_12_0/source/hdf5-1.12.0.tar.gz 
     tar xvf hdf5-1.12.0.tar.gz >& hdf5tar.log
     cd hdf5-1.12.0
-    ./configure --prefix="$1/wrf_libs_intel/"
+    ./configure --prefix="$1/wrf_libs_intel/" >& hdf5config.txt
     echo "Making HDF5..."
     make >& hdf5make.log
     make install >& hdf5install.log
-    if [ ! -f $bw_dir/wrf_libs_intel/include/zlib.h ]; then
+    if [ ! -f $bw_dir/wrf_libs_intel/include/H5FDcore.h ]; then
     echo "libpng build error"
         kill -INT $$
     else
@@ -79,7 +81,7 @@ build_netcdf () {
     export LD_LIBRARY_PATH="$1/wrf_libs_intel/lib:$LD_LIBRARY_PATH"
     export LDFLAGS="-L/$1/wrf_libs_intel/lib"
     export CPPFLAGS="-I/$1/wrf_libs_intel/include"
-    ./configure --prefix=/gpfs/home/jjcarter/wrf/wrf_libs_intel/ --disable-byterange
+    ./configure --prefix=/gpfs/home/jjcarter/wrf/wrf_libs_intel/ --disable-byterange >& netcdfconfig.txt
     echo "Making NETCDF..."
     make >& netcdfmake.log
     make install >& netcdfinstall.log
@@ -97,7 +99,7 @@ build_netcdf () {
     wget https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz
     tar netcdf-fortran-4.6.1.tar.gz >& netcdfFtar.log
     cd netcdf-fortran-4.6.1  
-    ./configure --prefix=/gpfs/home/jjcarter/wrf/wrf_libs_intel/
+    ./configure --prefix=/gpfs/home/jjcarter/wrf/wrf_libs_intel/  >& netcdfFconfig.txt
     echo "Making NETCDF (Fortran)..."
     make >& netcdfFmake.log
     make install >& netcdfFinstall.log
@@ -117,7 +119,7 @@ build_jasper () {
     wget https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz
     tar xvf jasper-1.900.29.tar.gz >& jaspertar.log
     cd jasper-1.900.29/
-    ./configure --prefix="$1/wrf_libs_intel/"
+    ./configure --prefix="$1/wrf_libs_intel/" >& jasperconfig.txt
     echo "Making jasper..."
     make >& jaspermake.log
     make install >& jasperinstall.log
