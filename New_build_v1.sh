@@ -128,6 +128,9 @@ echo "             WPS-------WRF----wrf_libs_intel"
 
 #Now build libraries
 build_zlib $bw_dir
+Echo "establish"
+Export Test="y" ############# TEMP
+if $Test!="n"
 build_libpng $bw_dir
 build_hdf5 $bw_dir
 build_netcdf $bw_dir
@@ -139,8 +142,8 @@ export HDF5=$1/wrf_libs_intel/
 #Now we will build wrf
 cd $bw_dir/Build_WRF/
 wget https://github.com/wrf-model/WRF/releases/download/v4.5.2/v4.5.2.tar.gz
-tar xvf v4.5.2/v4.5.2.tar.gz
-cd v4.5.2.tar.gz
+tar xvf v4.5.2.tar.gz
+cd v4.5.2
 ./configure
 
 #must edit file here
@@ -170,3 +173,4 @@ ls -rlt
 
 cd ../
 xvf v4.5.tar.gz
+fi
