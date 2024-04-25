@@ -130,7 +130,7 @@ echo "             WPS-------WRF----wrf_libs_intel"
 build_zlib $bw_dir
 Echo "establish"
 Export Test="y" ############# TEMP
-if $Test!="n"
+if $Test!="y"
 build_libpng $bw_dir
 build_hdf5 $bw_dir
 build_netcdf $bw_dir
