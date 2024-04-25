@@ -40,7 +40,7 @@ build_libpng () {
     make >& libpngmake.log
     make install >& libpnginstall.log
     if [ ! -f $bw_dir/wrf_libs_intel/include/zlib.h ]; then
-        echo "zlib build error"
+        echo "libpng build error"
         kill -INT $$
     else
         cd ../
@@ -48,26 +48,33 @@ build_libpng () {
         rm libpng-1.6.37.tar.gz
         rm -r libpng-1.6.37
         rm ../libpngtar.log
+    fi
 }
 
 build_hdf5 () {
     wget https://hdf-wordpress-1.s3.amazonaws.com/wp-content/uploads/manual/HDF5/HDF5_1_12_0/source/hdf5-1.12.0.tar.gz 
-    tar xvf hdf5-1.12.0.tar.gz
+    tar xvf hdf5-1.12.0.tar.gz >& hdf5tar.log
     cd hdf5-1.12.0
     ./configure --prefix="$1/wrf_libs_intel/"
     echo "Making HDF5..."
     make >& hdf5make.log
     make install >& hdf5install.log
-    cd ../
-    echo "cleaning up"
-    rm hdf5-1.12.0.tar.gz
-    rm -r hdf5-1.12.0
+    if [ ! -f $bw_dir/wrf_libs_intel/include/zlib.h ]; then
+    echo "libpng build error"
+        kill -INT $$
+    else
+        cd ../
+        echo "cleaning up"
+        rm hdf5-1.12.0.tar.gz
+        rm -r hdf5-1.12.0
+        rm ../hdf5tar.log
+    fi
 }
 
 build_netcdf () {
     #both netcdf and netcdf fortran are required
     wget https://downloads.unidata.ucar.edu/netcdf-c/4.9.2/netcdf-c-4.9.2.tar.gz
-    tar xvf netcdf-c-4.9.2.tar.gz
+    tar xvf netcdf-c-4.9.2.tar.gz >& netcdftar.log
     cd netcdf-c-4.9.2
     export LD_LIBRARY_PATH="$1/wrf_libs_intel/lib:$LD_LIBRARY_PATH"
     export LDFLAGS="-L/$1/wrf_libs_intel/lib"
@@ -76,21 +83,34 @@ build_netcdf () {
     echo "Making NETCDF..."
     make >& netcdfmake.log
     make install >& netcdfinstall.log
-    cd ../
-    echo "cleaning up"
-    rm netcdf-c-4.9.2.tar.gz
-    rm -r netcdf-c-4.9.2
+    if [ ! -f $bw_dir/wrf_libs_intel/include/zlib.h ]; then
+    echo "libpng build error"
+        kill -INT $$
+    else
+        cd ../
+        echo "cleaning up"
+        rm netcdf-c-4.9.2.tar.gz
+        rm -r netcdf-c-4.9.2
+        rm ../netcdftar.log
+    fi
+
     wget https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz
-    tar netcdf-fortran-4.6.1.tar.gz
+    tar netcdf-fortran-4.6.1.tar.gz >& netcdfFtar.log
     cd netcdf-fortran-4.6.1  
     ./configure --prefix=/gpfs/home/jjcarter/wrf/wrf_libs_intel/
     echo "Making NETCDF (Fortran)..."
     make >& netcdfFmake.log
     make install >& netcdfFinstall.log
-    cd ../
-    echo "cleaning up"
-    rm netcdf-fortran-4.6.1
-    rm -r netcdf-fortran-4.6.1
+    if [ ! -f $bw_dir/wrf_libs_intel/include/zlib.h ]; then
+    echo "libpng build error"
+        kill -INT $$
+    else
+        cd ../
+        echo "cleaning up"
+        rm netcdf-fortran-4.6.1
+        rm -r netcdf-fortran-4.6.1
+        rm ../netcdfFtar.log
+    fi
 }
 
 build_jasper () {
@@ -101,10 +121,16 @@ build_jasper () {
     echo "Making jasper..."
     make >& jaspermake.log
     make install >& jasperinstall.log
-    cd ../
-    echo "cleaning up"
-    rm jasper-1.900.29.tar.gz
-    rm -r jasper-1.900.29
+    if [ ! -f $bw_dir/wrf_libs_intel/include/zlib.h ]; then
+    echo "libpng build error"
+        kill -INT $$
+    else
+        cd ../
+        echo "cleaning up"
+        rm jasper-1.900.29.tar.gz
+        rm -r jasper-1.900.29
+        rm ../jaspertar.log
+    fi
 }
 
 ######## Code start #####################
