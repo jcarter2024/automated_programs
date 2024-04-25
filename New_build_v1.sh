@@ -12,13 +12,20 @@ build_zlib() {
     wget https://zlib.net/fossils/zlib-1.2.11.tar.gz
     tar xvf zlib-1.2.11.tar.gz >& zlibtar.log
     cd zlib-1.2.11/
-    ./configure --prefix="$1/wrf_libs_intel/
+    ./configure --prefix="$1/wrf_libs_intel/"
     echo "Making zlib..."
     make >& zlibmake.log
     make install >& zlibinstall.log
-    echo "cleaning up"
-    rm zlib-1.2.11.tar.gz
-    rm -r zlib-1.2.11
+    #check it worked
+    if [ ! -f $bw_dir/wrf_libs_intel/include/zlib.h ]; then
+        echo "zlib build error"
+        kill -INT $$
+    else
+        echo "cleaning up"
+        cd ../
+        rm zlib-1.2.11.tar.gz
+        rm -r zlib-1.2.11
+    fi
 }
 
 
@@ -56,7 +63,7 @@ build_netcdf () {
     wget https://downloads.unidata.ucar.edu/netcdf-c/4.9.2/netcdf-c-4.9.2.tar.gz
     tar xvf netcdf-c-4.9.2.tar.gz
     cd netcdf-c-4.9.2
-    export LD_LIBRARY_PATH="$1/wrf_libs_intel/lib:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH="$1/wrf_libs_intel/lib:$LD_LIBRARY_PATH"
     export LDFLAGS="-L/$1/wrf_libs_intel/lib"
     export CPPFLAGS="-I/$1/wrf_libs_intel/include"
     ./configure --prefix=/gpfs/home/jjcarter/wrf/wrf_libs_intel/ --disable-byterange
@@ -80,7 +87,7 @@ build_netcdf () {
     rm -r netcdf-fortran-4.6.1
 }
 
-get_jasper () {
+build_jasper () {
     wget https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz
     tar xvf jasper-1.900.29.tar.gz >& jaspertar.log
     cd jasper-1.900.29/
