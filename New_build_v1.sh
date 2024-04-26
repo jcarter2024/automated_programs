@@ -171,10 +171,11 @@ echo "             WPS-------WRF----wrf_libs_intel"
 build_zlib $bw_dir
 build_libpng $bw_dir
 build_hdf5 $bw_dir
-Test="y" ############# TEMP
-if [ $Test != "y" ]; then
 build_netcdf $bw_dir
 build_jasper $bw_dir
+
+Test="y" ############# TEMP
+if [ $Test != "y" ]; then
 
 export NETCDF=$1/wrf_libs_intel/
 export HDF5=$1/wrf_libs_intel/
@@ -183,6 +184,7 @@ export HDF5=$1/wrf_libs_intel/
 cd $bw_dir/Build_WRF/
 wget https://github.com/wrf-model/WRF/releases/download/v4.5.2/v4.5.2.tar.gz
 tar xvf v4.5.2.tar.gz
+rm v4.5.2.tar.gz
 cd v4.5.2
 ./configure
 
@@ -193,7 +195,7 @@ source /gpfs/software/intel/parallel-studio-xe/2019_4/compilers_and_libraries_20
 #can now compile
 ./compile -j 4 em_real 2>&1 | tee compile.log
 cd ../
-rm v4.5.2/v4.5.2.tar.gz
+
 
 #now build WPS
 Wget https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz
