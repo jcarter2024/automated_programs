@@ -45,7 +45,7 @@ build_libpng () {
     else
         cd ../
         echo "cleaning up"
-        rm libpng-1.6.37.tar.gz
+        rm libpng-1.6.37.tar.xz
         rm libpng-1.6.37.tar
         rm -r libpng-1.6.37
         rm libpngtar.log
