@@ -57,7 +57,7 @@ build_hdf5 () {
     wget https://hdf-wordpress-1.s3.amazonaws.com/wp-content/uploads/manual/HDF5/HDF5_1_12_0/source/hdf5-1.12.0.tar.gz 
     tar xvf hdf5-1.12.0.tar.gz >& hdf5tar.log
     cd hdf5-1.12.0
-    ./configure --prefix="$1/wrf_libs_intel/" >& hdf5config.txt
+    ./configure --prefix=$1/wrf_libs_intel/ --with-zlib=$1/wrf_libs_intel/ --enable-fortran >& hdf5config.txt
     echo "Making HDF5..."
     make >& hdf5make.log
     make install >& hdf5install.log
@@ -81,7 +81,7 @@ build_netcdf () {
     export LD_LIBRARY_PATH="$1/wrf_libs_intel/lib:$LD_LIBRARY_PATH"
     export LDFLAGS="-L/$1/wrf_libs_intel/lib"
     export CPPFLAGS="-I/$1/wrf_libs_intel/include"
-    ./configure --prefix=/gpfs/home/jjcarter/wrf/wrf_libs_intel/ --disable-byterange >& netcdfconfig.txt
+    ./configure --prefix=$1/wrf_libs_intel/ --disable-byterange >& netcdfconfig.txt
     echo "Making NETCDF..."
     make >& netcdfmake.log
     make install >& netcdfinstall.log
@@ -97,21 +97,24 @@ build_netcdf () {
     fi
 
     wget https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz
-    tar netcdf-fortran-4.6.1.tar.gz >& netcdfFtar.log
+    tar xvf netcdf-fortran-4.6.1.tar.gz >& netcdfFtar.log
     cd netcdf-fortran-4.6.1  
-    ./configure --prefix=/gpfs/home/jjcarter/wrf/wrf_libs_intel/  >& netcdfFconfig.txt
+    ./configure --prefix=$1/wrf_libs_intel/  >& netcdfFconfig.txt
     echo "Making NETCDF (Fortran)..."
     make >& netcdfFmake.log
     make install >& netcdfFinstall.log
-    if [ ! -f $bw_dir/wrf_libs_intel/include/zlib.h ]; then
+    if [ ! -f $1/wrf_libs_intel/include/zlib.h ]; then
     echo "libpng build error"
         kill -INT $$
     else
         cd ../
         echo "cleaning up"
-        rm netcdf-fortran-4.6.1
+        rm netcdf-fortran-4.6.1.tar.gz
         rm -r netcdf-fortran-4.6.1
         rm netcdfFtar.log
+        rm netcdfFmake.log
+        rm netcdfFinstall.log
+        rm netcdfFconfig.txt
     fi
 }
 
@@ -177,15 +180,17 @@ build_jasper $bw_dir
 Test="y" ############# TEMP
 if [ $Test != "y" ]; then
 
-export NETCDF=$1/wrf_libs_intel/
-export HDF5=$1/wrf_libs_intel/
+export NETCDF=$bw_dir/wrf_libs_intel/
+export HDF5=$bw_dir/wrf_libs_intel/
 
 #Now we will build wrf
 cd $bw_dir/Build_WRF/
 wget https://github.com/wrf-model/WRF/releases/download/v4.5.2/v4.5.2.tar.gz
 tar xvf v4.5.2.tar.gz
 rm v4.5.2.tar.gz
-cd v4.5.2
+mv WRFV4.5.2/* WRF/
+rm -rf WRFV4.5.2
+cd WRF/
 ./configure
 
 #must edit file here
