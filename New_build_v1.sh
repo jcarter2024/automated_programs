@@ -177,14 +177,14 @@ build_hdf5 $bw_dir
 build_netcdf $bw_dir
 build_jasper $bw_dir
 
-Test="y" ############# TEMP
-if [ $Test != "y" ]; then
+#Test="y" ############# Temporary break for testing purposes
+#if [ $Test != "y" ]; then
 
 export NETCDF=$bw_dir/wrf_libs_intel/
 export HDF5=$bw_dir/wrf_libs_intel/
 
 #Now we will build wrf
-cd $bw_dir/Build_WRF/
+cd $bw_dir
 wget https://github.com/wrf-model/WRF/releases/download/v4.5.2/v4.5.2.tar.gz
 tar xvf v4.5.2.tar.gz
 rm v4.5.2.tar.gz
@@ -209,14 +209,18 @@ cd ../
 
 
 #now build WPS
-Wget https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz
+wget https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz
 tar xvf v4.5.tar.gz
-cd WPS-4.5/
-export WRF_DIR=../WRFV4.5.2/
+rm v4.5.tar.gz
+mv WPS-4.5/* WPS/
+rm -rf WPS-4.5/
+cd WPS
+export WRF_DIR=../WRF/
 
 export JASPERLIB=$bw_dir/wrf_libs_intel/lib/
 export JASPERINC=$bw_dir/wrf_libs_intel/include/
 
+./configure
 #Choose 17 serial intel 
 
 ./compile 2>&1 | tee compile.log
@@ -225,5 +229,4 @@ export JASPERINC=$bw_dir/wrf_libs_intel/include/
 ls -rlt
 
 cd ../
-xvf v4.5.tar.gz
-fi
+#fi
