@@ -193,11 +193,17 @@ rm -rf WRFV4.5.2
 cd WRF/
 ./configure
 
-#must edit file here
+# Edit file here
+mod1='DM_FC           =       mpiifort'
+mod2='DM_CC           =       mpiicc'
 
-#must source mpi variables for compiler
+sed -i "s/^DM_FC.*/${mod1}/" configure.wrf
+sed -i "s/^DM_CC.*/${mod2}/" configure.wrf
+
+# Source mpi variables for compiler
 source /gpfs/software/intel/parallel-studio-xe/2019_4/compilers_and_libraries_2019.4.243/linux/bin/compilervars.sh -arch intel64
-#can now compile
+
+# now compile
 ./compile -j 4 em_real 2>&1 | tee compile.log
 cd ../
 
