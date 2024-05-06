@@ -228,5 +228,9 @@ export JASPERINC=$bw_dir/wrf_libs_intel/include/
 #Check you have linked executables with 
 ls -rlt
 
+#modify the static library path 
+mod3=" geog_data_path = \'\/gpfs\/software\/WRF\/4.4.2\/WPS_GEOG\/\'"
+sed -i "s/^ geog_data_path.*/$mod3/" namelist.wps
+
 cd ../
 #fi
