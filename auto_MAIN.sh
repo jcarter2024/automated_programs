@@ -18,16 +18,17 @@ download_data=0
 run_cases=0
 
 s_path=auto_resources
-
+bw_dir=$(realpath "../Build_WRF")
+echo $bw_dir
 while true; do
 	read -p "Do you wish to build from scratch-->(a), recompile wrf --> (b), recompile wps--> (c), download data (d), run case (e), exit(x)? " ans
     case $ans in
 	[Xx]* ) break ;;   
         [Aa]* ) . $s_path/full_build.sh;; 
-        [Bb]* ) . $s_path/recompile_wrf.sh $pwd;;
-	[Cc]* ) . $s_path/recompile_wps.sh $pwd;;
-	[Dd]* ) . $s_path/download_data.sh $pwd;;
-	[Ee]* ) . $s_path/run_case.sh $pwd;;
+        [Bb]* ) . $s_path/recompile_wrf.sh $bw_dir;;
+	[Cc]* ) . $s_path/recompile_wps.sh $bw_dir;;
+	[Dd]* ) . $s_path/download_data.sh $bw_dir;;
+	[Ee]* ) . $s_path/run_case.sh $bw_dir;;
         * ) echo "Please answer choice.";;
     esac
 done

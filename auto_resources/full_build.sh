@@ -43,16 +43,15 @@ export FC=ifort
 export F90=ifort
 export CXX=icpc
 
-Test="n" ############# Temporary break for testing purposes\
+Test="y" ############# Temporary break for testing purposes\
 if [ $Test != "y" ]; then
 #Now build libraries
 build_zlib $lib_dir
 build_libpng $lib_dir
 build_hdf5 $lib_dir
 build_netcdf $lib_dir
-fi
 build_jasper $lib_dir
-
+fi
 
 export NETCDF=$bw_dir/wrf_libs_intel/
 export HDF5=$bw_dir/wrf_libs_intel/

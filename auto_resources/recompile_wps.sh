@@ -1,11 +1,10 @@
-#$-cwd
+#!bin/bash
 
 #We should be in the same directory as Build_WRF\
 bw_dir=$1 #the location where Build_WRF is found (and built)\
 cd $bw_dir
-
 cd WPS
-export WRF_DIR=../WRF/
+export WRF_DIR=../WRF
 
 export JASPERLIB=$bw_dir/wrf_libs_intel/lib/
 export JASPERINC=$bw_dir/wrf_libs_intel/include/
