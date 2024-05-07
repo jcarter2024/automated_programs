@@ -1,10 +1,9 @@
 #!/bin/bash
 #$-cwd
 
-# Based off a previous script and the current WRF build. Untested. 
-#To do:
-#	. Switch the path in each library build function for more flexibility
-
+#To do
+#        --> This script will soon be obselete....
+#        moving to new programme with greater functionality...
 
 ####### FUNCTIONS ############################
 
