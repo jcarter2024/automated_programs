@@ -139,8 +139,11 @@ build_jasper () {
 }
 
 ######## Code start #####################
-
+#for 2019 set up (works as of May 6 2024)
 module load intel/compiler/64/2019/19.0.4
+module load intel/mkl/64/2019/19.0.4
+module load intel/mpi/64/2019/19.0.4
+
 export CC=icc
 export FC=ifort
 export F90=ifort
@@ -201,8 +204,8 @@ sed -i "s/^DM_FC.*/${mod1}/" configure.wrf
 sed -i "s/^DM_CC.*/${mod2}/" configure.wrf
 
 # Source mpi variables for compiler
-source /gpfs/software/intel/parallel-studio-xe/2019_4/compilers_and_libraries_2019.4.243/linux/bin/compilervars.sh -arch intel64
-
+#source /gpfs/software/intel/parallel-studio-xe/2019_4/compilers_and_libraries_2019.4.243/linux/bin/compilervars.sh -arch intel64
+source /gpfs/software/intel/parallel-studio-xe/2019_4/bin/compilervars.sh -arch intel64
 # now compile
 ./compile -j 4 em_real 2>&1 | tee compile.log
 cd ../
