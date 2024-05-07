@@ -1,28 +1,35 @@
 A programme to automatically compile WRF on SeaWulf
 
 * - * - STRUCTURE - * - 
-. New_build.sh
-. recompile_wrf.sh
-. recompile_wps.sh
+auto_Main --> main access point
+auto_resources/ --> contains several supporting scripts
+	|-> recompile_wps.sh
+	|-> recompile_wrf.sh
+	|-> library_functions  = "Contains builders for libraries" 
+	|-> retrieve_data.sh = "should download GFS but unfinished"
+        |-> full_build.sh = "builds libraries and compiles WRF / WPS in one sweep"
 
-Asks would you like to 
-a) Compile from scratch 
-b) Recompile 
-c) Retrieve data 
-d) Run case(s)
+Running
+-------
+clone directory and issue . auto_Main
+select:
+	-  full recompile (a) [Working]
+	-  recompile WPS / WRF (b) (c) [Working - requires Build_WRF to be located in same directory as automated_programs ]
 
-> a, b, c, d, or x to cancel 
+To do
+-----
+
+ . Automate the following:
+	- Retrieve data
+        - link data and Vtable
+        - copy WPS and WRF to scratch 
+        - ungrib and metgrid via slurm 
+        - link the metgrid files to wrf
+        - run real and wrf via slurm 
 
 Specify that the user should be on Milan node 
-a) Compile from scratch [current script that builds entire program]
 
-- Call the recompile script as part of this 
 
-Ask c) again 
-- Would the user like GFS or ECMWF (later)
-- User enters date range for simulation, we will retrieve this from the GFS servers by generating script 
-- Call optional WPS script to geogrid and ungrib data (batch submit ungrib and metgrid)
 
-Ask d) again (shall we run this case?)
-	./case run with argument of metgrid dates 
-	yes —> we run real and wrf for the metgrid files, create new directory on scratch based on dates, run in place
+
+
