@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+#SBATCH --job-name=test
+#SBATCH --output=res.txt
+#SBATCH --ntasks-per-node=10
+#SBATCH --nodes=1
+#SBATCH --time=05:00
+#SBATCH -p short-40core
+#SBATCH --mail-type=BEGIN,END
+#SBATCH --mail-user=joshua.carter@stonybrook.edu
+
+module load intel/compiler/64/2019/19.0.4
+module load intel/mkl/64/2019/19.0.4
+module load intel/mpi/64/2019/19.0.4
+
+#should be in /WRF
+bw_dir="/gpfs/home/jjcarter/MILAN_WRF/Build_WRF" #the location where Build_WRF is found (and built)
+
+#not convinced the following is needed, but what have we got to lose?
+export LD_LIBRARY_PATH="$bw_dir/wrf_libs_intel/lib:$LD_LIBRARY_PATH"
+export LDFLAGS="-L/$bw_dir/wrf_libs_intel/lib"
+export CPPFLAGS="-I/$bw_dir/wrf_libs_intel/include"
+
+export CC=icc
+export FC=ifort
+export F90=ifort
+export CXX=icpc
+export NETCDF=$bw_dir/wrf_libs_intel/
+export HDF5=$bw_dir/wrf_libs_intel/
+
+#the following may be needed if recompiling WPS (not needed for registry change)
+export WRF_DIR=/gpfs/home/jjcarter/MILAN_WRF/Build_WRF/WRF/
+export JASPERLIB=$bw_dir/wrf_libs_intel/lib/
+export JASPERINC=$bw_dir/wrf_libs_intel/include/
+
+#ulimit -s 262140
+ulimit -s unlimited
+mpirun ./metgrid.exe

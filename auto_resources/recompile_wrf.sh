@@ -20,8 +20,8 @@ export CXX=icpc
 
 #not convinced the following is needed, but what have we got to lose? 
 export LD_LIBRARY_PATH="$bw_dir/wrf_libs_intel/lib:$LD_LIBRARY_PATH"
-export LDFLAGS="-L/$bw_dir/wrf_libs_intel/lib"
-export CPPFLAGS="-I/$bw_dir/wrf_libs_intel/include"
+export LDFLAGS="-L$bw_dir/wrf_libs_intel/lib"
+export CPPFLAGS="-I$bw_dir/wrf_libs_intel/include"
 
 export NETCDF=$bw_dir/wrf_libs_intel/
 export HDF5=$bw_dir/wrf_libs_intel/
@@ -48,3 +48,15 @@ source /gpfs/software/intel/parallel-studio-xe/2019_4/bin/compilervars.sh -arch 
 ./compile -j 4 em_real 2>&1 | tee compile.log 
 
 cd $bw_dir
+
+#copy the slurms over to the WRF directory
+slurm_path=$(realpath "../automated_programs/auto_resources/Slurm_scripts")
+echo $slurm_path
+
+cp $slurm_path/real_slurm $bw_dir/WRF/
+cp $slurm_path/wrf_slurm $bw_dir/WRF/
+
+#edit the slurm to reflect the WRF_DIR? Not needed
+#mod1="WRF_DIR = $WRF_DIR"
+#sed -i "s/^WRF_DIR.*/${mod1}/" $bw_dir/WRF/ungrib_slurm
+#sed -i "s/^WRF_DIR.*/${mod1}/" $bw_dir/WRF/metgrid_slurm
