@@ -57,6 +57,9 @@ cp $slurm_path/real_slurm $bw_dir/WRF/
 cp $slurm_path/wrf_slurm $bw_dir/WRF/
 
 #edit the slurm to reflect the WRF_DIR? Not needed
-#mod1="WRF_DIR = $WRF_DIR"
-#sed -i "s/^WRF_DIR.*/${mod1}/" $bw_dir/WRF/ungrib_slurm
-#sed -i "s/^WRF_DIR.*/${mod1}/" $bw_dir/WRF/metgrid_slurm
+#mod1="WRF_DIR = $WRF_DIR"\
+mod2="bw_dir = $bw_dir"
+#sed -i "s/^WRF_DIR.*/${mod1}/" $bw_dir/WRF/real_slurm
+#sed -i "s/^WRF_DIR.*/${mod1}/" $bw_dir/WRF/wrf_slurm
+sed -i "s/^bw_dir=.*/${mod2}/" $bw_dir/WRF/real_slurm
+sed -i "s/^bw_dir=.*/${mod2}/" $bw_dir/WRF/wrf_slurm
