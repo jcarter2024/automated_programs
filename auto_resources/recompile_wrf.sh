@@ -1,5 +1,4 @@
 #!/bin/bash
-#$-cwd
 
 #We should be in the same directory as Build_WRF
 bw_dir=$1 #the location where Build_WRF is found (and built)
