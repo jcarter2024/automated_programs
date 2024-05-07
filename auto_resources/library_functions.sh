@@ -2,8 +2,7 @@
 #$-cwd
 
 #To do
-#        --> This script will soon be obselete....
-#        moving to new programme with greater functionality...
+#        --> This script contains library building functions
 
 ####### FUNCTIONS ############################
 
@@ -137,102 +136,3 @@ build_jasper () {
     fi
 }
 
-######## Code start #####################
-#for 2019 set up (works as of May 6 2024)
-module load intel/compiler/64/2019/19.0.4
-module load intel/mkl/64/2019/19.0.4
-module load intel/mpi/64/2019/19.0.4
-
-export CC=icc
-export FC=ifort
-export F90=ifort
-export CXX=icpc
-
-# STEP 1: check if Build_WRF exists
-echo "========================================="
-echo "       Checking your WRF build..."
-echo "========================================="
-
-mkdir Build_WRF
-cd Build_WRF/
-bw_dir=$(pwd) #the location where Build_WRF is found (and built)
-
-mkdir WRF
-mkdir WPS
-mkdir wrf_libs_intel
-
-echo "                 ===============    "
-echo "                  FILE structure    "
-echo "                 ===============    "
-echo " -->>              Git directory    "
-echo "                        |           "
-echo "               Build_WRF (bw_dir)    "
-echo "                /       |       \   "
-echo "             WPS-------WRF----wrf_libs_intel"
-
-
-
-#Now build libraries
-build_zlib $bw_dir
-build_libpng $bw_dir
-build_hdf5 $bw_dir
-build_netcdf $bw_dir
-build_jasper $bw_dir
-
-#Test="y" ############# Temporary break for testing purposes
-#if [ $Test != "y" ]; then
-
-export NETCDF=$bw_dir/wrf_libs_intel/
-export HDF5=$bw_dir/wrf_libs_intel/
-
-#Now we will build wrf
-cd $bw_dir
-wget https://github.com/wrf-model/WRF/releases/download/v4.5.2/v4.5.2.tar.gz
-tar xvf v4.5.2.tar.gz
-rm v4.5.2.tar.gz
-mv WRFV4.5.2/* WRF/
-rm -rf WRFV4.5.2
-cd WRF/
-./configure
-
-# Edit file here
-mod1='DM_FC           =       mpiifort'
-mod2='DM_CC           =       mpiicc'
-
-sed -i "s/^DM_FC.*/${mod1}/" configure.wrf
-sed -i "s/^DM_CC.*/${mod2}/" configure.wrf
-
-# Source mpi variables for compiler
-#source /gpfs/software/intel/parallel-studio-xe/2019_4/compilers_and_libraries_2019.4.243/linux/bin/compilervars.sh -arch intel64
-source /gpfs/software/intel/parallel-studio-xe/2019_4/bin/compilervars.sh -arch intel64
-# now compile
-./compile -j 4 em_real 2>&1 | tee compile.log
-cd ../
-
-
-#now build WPS
-wget https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz
-tar xvf v4.5.tar.gz
-rm v4.5.tar.gz
-mv WPS-4.5/* WPS/
-rm -rf WPS-4.5/
-cd WPS
-export WRF_DIR=../WRF/
-
-export JASPERLIB=$bw_dir/wrf_libs_intel/lib/
-export JASPERINC=$bw_dir/wrf_libs_intel/include/
-
-./configure
-#Choose 17 serial intel 
-
-./compile 2>&1 | tee compile.log
-
-#Check you have linked executables with 
-ls -rlt
-
-#modify the static library path 
-mod3=" geog_data_path = \'\/gpfs\/software\/WRF\/4.4.2\/WPS_GEOG\/\'"
-sed -i "s/^ geog_data_path.*/$mod3/" namelist.wps
-
-cd ../
-#fi
