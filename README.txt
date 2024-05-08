@@ -28,7 +28,7 @@ To do
         - run real and wrf via slurm 
 
 Specify that the user should be on Milan node 
-
+automatically update the wrf out dir to be scratch
 
 
 
