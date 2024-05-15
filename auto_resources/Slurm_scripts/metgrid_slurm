@@ -35,4 +35,4 @@ export JASPERINC=$bw_dir/wrf_libs_intel/include/
 
 #ulimit -s 262140
 ulimit -s unlimited
-mpirun ./metgrid.exe
+./metgrid.exe
