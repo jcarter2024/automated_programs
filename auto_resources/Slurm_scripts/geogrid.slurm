@@ -4,7 +4,7 @@
 #SBATCH --output=res.txt
 #SBATCH --ntasks-per-node=1
 #SBATCH --nodes=1
-#SBATCH --time=30:00
+#SBATCH --time=15:00
 #SBATCH -p short-40core
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=joshua.carter@stonybrook.edu
@@ -35,4 +35,4 @@ export JASPERINC=$bw_dir/wrf_libs_intel/include/
 
 #ulimit -s 262140
 ulimit -s unlimited
-./ungrib.exe
+./geogrid.exe

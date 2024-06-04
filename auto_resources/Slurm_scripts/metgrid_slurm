@@ -2,9 +2,9 @@
 #
 #SBATCH --job-name=test
 #SBATCH --output=res.txt
-#SBATCH --ntasks-per-node=10
+#SBATCH --ntasks-per-node=1
 #SBATCH --nodes=1
-#SBATCH --time=05:00
+#SBATCH --time==30:00
 #SBATCH -p short-40core
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=joshua.carter@stonybrook.edu
