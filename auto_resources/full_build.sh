@@ -43,7 +43,7 @@ export FC=ifort
 export F90=ifort
 export CXX=icpc
 
-Test="y" ############# Temporary break for testing purposes\
+Test="n" ############# Temporary break for testing purposes\
 if [ $Test != "y" ]; then
 #Now build libraries
 build_zlib $lib_dir

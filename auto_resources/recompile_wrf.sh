@@ -33,7 +33,7 @@ export JASPERINC=$bw_dir/wrf_libs_intel/include/
 
 ############ Recompile starts ##############
 ./clean
-./configure
+./configure -D
 
 # Edit configure.wrf file here
 mod1='DM_FC           =       mpiifort'
