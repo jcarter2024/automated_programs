@@ -50,7 +50,8 @@ build_zlib $lib_dir
 build_libpng $lib_dir
 build_hdf5 $lib_dir
 build_netcdf $lib_dir
-build_jasper $lib_dir
+cmake_jasper $lib_dir
+#build_jasper $lib_dir
 fi
 
 export NETCDF=$bw_dir/wrf_libs_intel/

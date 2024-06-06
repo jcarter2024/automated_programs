@@ -46,8 +46,9 @@ slurm_path=$(realpath "../automated_programs/auto_resources/Slurm_scripts")
 echo $slurm_path
 
 #NOTE --> The ungrib wrf path will likely need to be changed!
-#cp $slurm_path/ungrib_slurm $bw_dir/WPS/
-#cp $slurm_path/metgrid_slurm $bw_dir/WPS/
+cp $slurm_path/geogrid_slurm $bw_dir/WPS/
+cp $slurm_path/ungrib_slurm $bw_dir/WPS/
+cp $slurm_path/metgrid_slurm $bw_dir/WPS/
 #Now we have a unified post-geogrid wps script that auto submits a wps_slurm
 cp $slurm_path/complete_wps_slurm $bw_dir/WPS/
 cp $slurm_path/post_geogrid.sh $bw_dir/WPS/
