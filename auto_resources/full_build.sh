@@ -70,7 +70,7 @@ cd $bw_dir
 #rm -rf WRFV4.5.2
 
 #The following grabs the latest wrf
-https://github.com/wrf-model/WRF/releases/download/v4.6.0/v4.6.0.tar.gz
+wget https://github.com/wrf-model/WRF/releases/download/v4.6.0/v4.6.0.tar.gz
 tar xvf v4.6.0.tar.gz >& wrftar.txt
 rm v4.6.0.tar.gz
 rm wrftar.txt
