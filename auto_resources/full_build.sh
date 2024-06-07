@@ -50,8 +50,14 @@ build_zlib $lib_dir
 build_libpng $lib_dir
 build_hdf5 $lib_dir
 build_netcdf $lib_dir
-cmake_jasper $lib_dir
-#build_jasper $lib_dir
+
+#jasper old version (package_id=0) is not cmake
+if [ $package_id != 0 ]; then
+    echo "cmaking JasPer"
+    cmake_jasper $lib_dir
+else
+    echo "building JasPer"
+    build_jasper $lib_dir
 fi
 
 export NETCDF=$bw_dir/wrf_libs_intel/

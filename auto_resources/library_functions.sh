@@ -1,31 +1,39 @@
 #!/bin/bash
 
 #To do
+# OPTIONAL -- Add support for ADIOS2
 #        --> This script contains library building functions
 
 ########################### VERSIONS ##########################
+
+#The package id chooses a group of working library combinations, 0 is old (working), 1 is more modern (untested)
+#NOTE netcdf and jasper are duplicated as already operating at latest version
+package_id=0
+
 # ------ ZLIB
-zlib_url=https://zlib.net/fossils/zlib-1.2.11.tar.gz
-zlib_url=https://zlib.net/zlib-1.3.1.tar.gz
+zlib_urls=( https://zlib.net/fossils/zlib-1.2.11.tar.gz https://zlib.net/zlib-1.3.1.tar.gz )
 
 # ------ libpng
-libpng_url=https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.xz
-libpng_url=https://sourceforge.net/projects/libpng/files/libpng16/1.6.43/libpng-1.6.43.tar.xz
+libpng_urls=( https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.xz https://sourceforge.net/projects/libpng/files/libpng16/1.6.43/libpng-1.6.43.tar.xz )
 
 # ------ hdf5
-hdf5_url=https://hdf-wordpress-1.s3.amazonaws.com/wp-content/uploads/manual/HDF5/HDF5_1_12_0/source/hdf5-1.12.0.tar.gz
-hdf5_url=https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.4.3/hdf5-1.14.4-3.tar.gz
+hdf5_urls=( https://hdf-wordpress-1.s3.amazonaws.com/wp-content/uploads/manual/HDF5/HDF5_1_12_0/source/hdf5-1.12.0.tar.gz https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.4.3/hdf5-1.14.4-3.tar.gz )
 
 # ------ netcdf
-netcdf_url=https://downloads.unidata.ucar.edu/netcdf-c/4.9.2/netcdf-c-4.9.2.tar.gz
+netcdf_urls=( https://downloads.unidata.ucar.edu/netcdf-c/4.9.2/netcdf-c-4.9.2.tar.gz https://downloads.unidata.ucar.edu/netcdf-c/4.9.2/netcdf-c-4.9.2.tar.gz )
 
 # ------ netcdf_Fortran
-netcdfF_url=https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz
+netcdfF_urls=( https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz )
 
 # ------ jasper
-jasper_url=https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz
-jasper_url=https://github.com/jasper-software/jasper/archive/refs/tags/version-4.2.4.tar.gz
+jasper_urls=( https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz https://github.com/jasper-software/jasper/archive/refs/tags/version-4.2.4.tar.gz https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz https://github.com/jasper-software/jasper/archive/refs/tags/version-4.2.4.tar.gz )
 
+zlib_url=${zlib_urls[$package_id]}
+libpng_url=${libpng_urls[$package_id]}
+hdf5_url=${hdf5_urls[$package_id]}
+netcdf_url=${netcdf_urls[$package_id]}
+netcdfF_url=${netcdfF_urls[$package_id]}
+jasper_url=${jasper_urls[$package_id]}
 
 # ------- strip the version to install correctly
 zlib_tar="${zlib_url##*/}"
