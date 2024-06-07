@@ -55,8 +55,8 @@ cp $slurm_path/post_geogrid.sh $bw_dir/WPS/
 
 
 #edit the slurm to reflect the WRF_DIR
-mod1="export WRF_DIR = $WRF_DIR/"
-mod2="bw_dir = $bw_dir"
+mod1="export WRF_DIR=$WRF_DIR/"
+mod2="bw_dir=$bw_dir"
 sed -i "s~^export WRF_DIR.*~${mod1}~" $bw_dir/WPS/ungrib_slurm
 sed -i "s~^export WRF_DIR.*~${mod1}~" $bw_dir/WPS/metgrid_slurm
 sed -i "s~^bw_dir=.*~${mod2}~" $bw_dir/WPS/ungrib_slurm
