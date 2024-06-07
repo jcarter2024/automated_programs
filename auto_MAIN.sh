@@ -17,10 +17,16 @@ recompile_wrf=0
 download_data=0
 run_cases=0
 
-s_path=auto_resources
+s_path=$(realpath "auto_resources")
 bw_dir=$(realpath "../Build_WRF")
+
+echo s_path
 echo $bw_dir
 echo "If running on cluster, please use an interactive node i.e. srun -N 1 -n 1 -t 2:00:00 -p MYQUEUE --pty bash to avoid memory hogging"
+
+#make executables
+chmod 777 $s_path/*.sh
+
 while true; do
 	read -p "Do you wish to build from scratch-->(a), recompile wrf --> (b), recompile wps--> (c), download data (d), run case (e), exit(x)? " ans
     case $ans in
