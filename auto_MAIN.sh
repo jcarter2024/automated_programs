@@ -17,7 +17,8 @@ recompile_wrf=0
 download_data=0
 run_cases=0
 
-s_path=$(realpath "auto_resources")
+#s_path=$(realpath "auto_resources")
+#s_path=auto_resources
 
 #The following won't be set on your first build, and that's ok! Will be set in full_build.sh
 bw_dir=$(realpath "../Build_WRF")
