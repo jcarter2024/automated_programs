@@ -197,7 +197,7 @@ build_jasper () {
     echo "Making jasper..."
     make >& jaspermake.log
     make install >& jasperinstall.log
-    if [ ! -f $1include/netscdf.h ]; then
+    if [ ! -f $1include/jasper/jasper.h ]; then
     echo "jasper build error"
         kill -INT $$
     else
