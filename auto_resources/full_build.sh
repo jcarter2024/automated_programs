@@ -59,6 +59,7 @@ else
     echo "building JasPer"
     build_jasper $lib_dir
 fi
+fi
 
 export NETCDF=$bw_dir/wrf_libs_intel/
 export HDF5=$bw_dir/wrf_libs_intel/
