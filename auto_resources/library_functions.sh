@@ -192,7 +192,7 @@ cmake_jasper () {
 build_jasper () {
     wget $jasper_url
     tar xvf $jasper_tar >& jaspertar.log
-    cd "jasper-$jasper_v"
+    cd $jasper_v
     ./configure --prefix="$1" >& jasperconfig.txt
     echo "Making jasper..."
     make >& jaspermake.log
@@ -204,7 +204,7 @@ build_jasper () {
         cd ../
         echo "cleaning up"
         rm $jasper_tar
-        rm -r "jasper-$jasper_v"
+        rm -r $jasper_v
         rm jaspertar.log
     fi
 }
