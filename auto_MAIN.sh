@@ -18,10 +18,12 @@ download_data=0
 run_cases=0
 
 s_path=$(realpath "auto_resources")
+
+#The following won't be set on your first build, and that's ok! Will be set in full_build.sh
 bw_dir=$(realpath "../Build_WRF")
 
-echo s_path
-echo $bw_dir
+echo $s_path
+
 echo "If running on cluster, please use an interactive node i.e. srun -N 1 -n 1 -t 2:00:00 -p MYQUEUE --pty bash to avoid memory hogging"
 
 #make executables
