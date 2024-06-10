@@ -211,7 +211,7 @@ build_jasper () {
 }
 
 
-build_zlib()_old {
+build_zlib_old() {
     wget https://zlib.net/fossils/zlib-1.2.11.tar.gz
     tar xvf zlib-1.2.11.tar.gz >& zlibtar.log
     cd zlib-1.2.11/
@@ -233,7 +233,7 @@ build_zlib()_old {
 }
 
 
-build_libpng_old () {
+build_libpng_old() {
   wget https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.xz
     xz -d -v libpng-1.6.37.tar.xz >& libpngxz.log
     tar xvf libpng-1.6.37.tar >& libpngtar.log
@@ -256,7 +256,7 @@ build_libpng_old () {
     fi
 }
 
-build_hdf5_old () {
+build_hdf5_old() {
     wget https://hdf-wordpress-1.s3.amazonaws.com/wp-content/uploads/manual/HDF5/HDF5_1_12_0/source/hdf5-1.12.0.tar.gz 
     tar xvf hdf5-1.12.0.tar.gz >& hdf5tar.log
     cd hdf5-1.12.0
@@ -276,7 +276,7 @@ build_hdf5_old () {
     fi
 }
 
-build_netcdf_old () {
+build_netcdf_old() {
     #both netcdf and netcdf fortran are required
     wget https://downloads.unidata.ucar.edu/netcdf-c/4.9.2/netcdf-c-4.9.2.tar.gz
     tar xvf netcdf-c-4.9.2.tar.gz >& netcdftar.log
@@ -321,7 +321,7 @@ build_netcdf_old () {
     fi
 }
 
-build_jasper_old () {
+build_jasper_old() {
     wget https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz
     tar xvf jasper-1.900.29.tar.gz >& jaspertar.log
     cd jasper-1.900.29/
