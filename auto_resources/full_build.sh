@@ -80,20 +80,20 @@ export HDF5=$bw_dir/wrf_libs_intel/
 
 #Now we will build wrf
 cd $bw_dir
-#wget https://github.com/wrf-model/WRF/releases/download/v4.5.2/v4.5.2.tar.gz
-#tar xvf v4.5.2.tar.gz >& wrftar.txt
-#rm v4.5.2.tar.gz
-#rm wrftar.txt
-#mv WRFV4.5.2/* WRF/
-#rm -rf WRFV4.5.2
+wget https://github.com/wrf-model/WRF/releases/download/v4.5.2/v4.5.2.tar.gz
+tar xvf v4.5.2.tar.gz >& wrftar.txt
+rm v4.5.2.tar.gz
+rm wrftar.txt
+mv WRFV4.5.2/* WRF/
+rm -rf WRFV4.5.2
 
 #The following grabs the latest wrf
-wget https://github.com/wrf-model/WRF/releases/download/v4.6.0/v4.6.0.tar.gz
-tar xvf v4.6.0.tar.gz >& wrftar.txt
-rm v4.6.0.tar.gz
-rm wrftar.txt
-mv WRFV4.6.0/* WRF/
-rm -rf WRFV4.6.0
+#wget https://github.com/wrf-model/WRF/releases/download/v4.6.0/v4.6.0.tar.gz
+#tar xvf v4.6.0.tar.gz >& wrftar.txt
+#rm v4.6.0.tar.gz
+#rm wrftar.txt
+#mv WRFV4.6.0/* WRF/
+#rm -rf WRFV4.6.0
 #----------------------------- MUST be chmod u+x'd\
 . ../automated_programs/auto_resources/recompile_wrf.sh $bw_dir
 #-----------------------------
