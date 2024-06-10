@@ -8,7 +8,7 @@
 
 #The package id chooses a group of working library combinations, 0 is old (working), 1 is more modern (untested)
 #NOTE netcdf and jasper are duplicated as already operating at latest version
-package_id=0
+package_id=1
 
 # ------ ZLIB
 zlib_urls=( https://zlib.net/fossils/zlib-1.2.11.tar.gz https://zlib.net/zlib-1.3.1.tar.gz )
