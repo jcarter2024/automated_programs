@@ -54,8 +54,8 @@ fi
 while true; do
 	read -p "Method for library build: old —>(o), or new --> (n)" ans
     case $ans in
-        [o]* ) build_zlib $lib_dir; build_libpng $lib_dir; build_hdf5 $lib_dir; build_netcdf $lib_dir; build_jasper $lib_dir;; 
-        [n]* ) build_zlib_old $lib_dir build_libpng_old $lib_dir build_hdf5_old $lib_dir build_netcdf_old $lib_dir; cmake_jasper_old $lib_dir;;
+        [n]* ) build_zlib $lib_dir; build_libpng $lib_dir; build_hdf5 $lib_dir; build_netcdf $lib_dir; build_jasper $lib_dir;; 
+        [o]* ) build_zlib_old $lib_dir build_libpng_old $lib_dir build_hdf5_old $lib_dir build_netcdf_old $lib_dir; build_jasper_old $lib_dir;;
         * ) echo "Please answer choice.";;
     esac
 done
