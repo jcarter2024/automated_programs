@@ -51,14 +51,20 @@ fi
 
 #Now build libraries
 
-while true; do
-	read -p "Method for library build: old —>(o), or new --> (n)" ans
-    case $ans in
-        [n]* ) build_zlib $lib_dir; build_libpng $lib_dir; build_hdf5 $lib_dir; build_netcdf $lib_dir; build_jasper $lib_dir;; 
-        [o]* ) build_zlib_old $lib_dir; build_libpng_old $lib_dir; build_hdf5_old $lib_dir; build_netcdf_old $lib_dir; build_jasper_old $lib_dir;;
-        * ) echo "Please answer choice.";;
-    esac
-done
+read -p "Method for library build: old —>(o), or new --> (n)" ans
+if [ $ans != "n" ]; then
+        build_zlib $lib_dir
+        build_libpng $lib_dir
+        build_hdf5 $lib_dir
+        build_netcdf $lib_dir
+        build_jasper $lib_dir
+elif [ $ans != "o" ]; then
+        build_zlib_old $lib_dir
+        build_libpng_old $lib_dir
+        build_hdf5_old $lib_dir
+        build_netcdf_old $lib_dir
+        build_jasper_old $lib_dir
+fi
 
 export NETCDF=$bw_dir/wrf_libs_intel/
 export HDF5=$bw_dir/wrf_libs_intel/
