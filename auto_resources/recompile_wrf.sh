@@ -31,6 +31,22 @@ export JASPERLIB=$bw_dir/wrf_libs_intel/lib/
 export JASPERINC=$bw_dir/wrf_libs_intel/include/
 
 
+###################
+echo $bw_dir
+echo $CC 
+echo $F90
+echo $CXX
+echo $FC
+echo $FCFLAGS
+echo $F77
+echo $FFLAGS
+echo $JASPERLIB
+echo $JASPERINC
+echo $LDFLAGS
+echo $CPPFLAGS
+echo $NETCDF
+echo $HDF5
+
 ############ Recompile starts ##############
 ./clean
 ./configure -D
