@@ -52,13 +52,13 @@ fi
 #Now build libraries
 
 read -p "Method for library build: old —>(o), or new --> (n)" ans
-if [ $ans != "n" ]; then
+if [ $ans = "n" ]; then
         build_zlib $lib_dir
         build_libpng $lib_dir
         build_hdf5 $lib_dir
         build_netcdf $lib_dir
         build_jasper $lib_dir
-elif [ $ans != "o" ]; then
+elif [ $ans = "o" ]; then
         build_zlib_old $lib_dir
         build_libpng_old $lib_dir
         build_hdf5_old $lib_dir
