@@ -46,6 +46,8 @@ export CXX=icpc
 
 Test="n" ############# Temporary break for testing purposes\
 if [ $Test != "y" ]; then
+    echo "Testing"
+fi
 
 #Now build libraries
 
