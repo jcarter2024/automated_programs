@@ -42,13 +42,13 @@ export CC=icc
 export FC=ifort
 export F90=ifort
 export CXX=icpc
-export FCFLAGS -m64
-export F77 gfortran
-export FFLAGS -m64
+export FCFLAGS=-m64
+export F77=gfortran
+export FFLAGS=-m64
 export JASPERLIB=$bw_dir/wrf_libs_intel/lib
 export JASPERINC=$bw_dir/wrf_libs_intel/include
-export LDFLAGS -L$bw_dir/wrf_libs_intel/lib
-export CPPFLAGS -I$bw_dir/wrf_libs_intel/include
+export LDFLAGS=-L$bw_dir/wrf_libs_intel/lib
+export CPPFLAGS=-I$bw_dir/wrf_libs_intel/include
 
 
 Test="n" ############# Temporary break for testing purposes\
