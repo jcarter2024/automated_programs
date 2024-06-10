@@ -26,7 +26,7 @@ netcdf_urls=( https://downloads.unidata.ucar.edu/netcdf-c/4.9.2/netcdf-c-4.9.2.t
 netcdfF_urls=( https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz )
 
 # ------ jasper
-jasper_urls=( https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz https://github.com/jasper-software/jasper/archive/refs/tags/version-4.2.4.tar.gz https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz https://github.com/jasper-software/jasper/archive/refs/tags/version-4.2.4.tar.gz )
+jasper_urls=( https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz https://github.com/jasper-software/jasper/archive/refs/tags/version-4.2.4.tar.gz )
 
 zlib_url=${zlib_urls[$package_id]}
 libpng_url=${libpng_urls[$package_id]}
@@ -173,7 +173,8 @@ cmake_jasper () {
     BUILD_DIR=$(pwd)/BUILD
     echo $BUILD_DIR
     cd "jasper-$jasper_v"
-    cmake  -B$BUILD_DIR -DCMAKE_INSTALL_PREFIX=$1
+    #Must include LIBDIR or will install by default in lib64
+    cmake  -B$BUILD_DIR -DCMAKE_INSTALL_PREFIX=$1 -DCMAKE_INSTALL_LIBDIR=lib
     cmake --build $BUILD_DIR
     cmake --build $BUILD_DIR --target install
     if [ ! -f $1include/jasper/jasper.h ]; then
