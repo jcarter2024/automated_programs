@@ -1,43 +1,39 @@
 #!/bin/bash
-# the current directory is automated_programs/
+#$-cwd
 
-#To do
-#        --> This script handles a full build of wrf 
-#        CALLS:
-#		recompile_wrf.sh
-#		recompile_wps.sh
+#handy func for cd
 
-############### 1. Build libraries from scratch?
-#call functions
-source auto_resources/library_functions.sh
+verbose_cd() {
+    printf "\nLeaving $(pwd)\n"
+    cd $1
+    printf "\nEntering $(pwd)\n"
+}
 
-# check if Build_WRF exists
-echo "========================================="
-echo "       Checking your WRF build..."
-echo "========================================="
+mktitle() {
+    printf "\n************* --> $1 <-- *************\n"
+}
 
-cd ../
-echo "making Build_WRF in $pwd"
+source library_functions.sh
+source recompile_wrf.sh
+source recompile_wps.sh
+
+#########################################
+########## B U I L D  T R E E  ##########
+#########################################
+
+echo "making Build_WRF in $(pwd)"
 mkdir Build_WRF
-cd Build_WRF/
-bw_dir=$(pwd) #the location where Build_WRF is found (and built)\
-
+verbose_cd Build_WRF/
 mkdir WRF
 mkdir WPS
 mkdir wrf_libs_intel
 
-lib_dir=$bw_dir/wrf_libs_intel/
-echo $lib_dir
-echo "                 ===============    "
-echo "                  FILE structure    "
-echo "                 ===============    "
-echo " -->>              Git directory    "
-echo "                        |           "
-echo "               Build_WRF (bw_dir)    "
-echo "                /       |       \   "
-echo "             WPS-------WRF----wrf_libs_intel"
+module load intel/compiler/64/2019/19.0.4
+module load intel/mkl/64/2019/19.0.4
+module load intel/mpi/64/2019/19.0.4
 
-
+bw_dir=$(pwd)
+lib_dir=$bw_dir/wrf_libs_intel
 export CC=icc
 export FC=ifort
 export F90=ifort
@@ -50,65 +46,50 @@ export JASPERINC=$bw_dir/wrf_libs_intel/include
 export LDFLAGS=-L$bw_dir/wrf_libs_intel/lib
 export CPPFLAGS=-I$bw_dir/wrf_libs_intel/include
 
+echo "bw_dir: $bw_dir"
+echo "lib_dir: $lib_dir"
+echo "CC: $CC"
+echo "FC: $FC"
+echo "F90: $F90"
+echo "CXX: $CXX"
+echo "FCFLAGS: $FCFLAGS"
+echo "F77: $F77"
+echo "FFLAGS: $FFLAGS"
+echo "JASPERLIB: $JASPERLIB"
+echo "JASPERINC: $JASPERINC"
+echo "LDFLAGS: $LDFLAGS"
+echo "CPPFLAGS: $CPPFLAGS"
 
-Test="n" ############# Temporary break for testing purposes\
-if [ $Test != "y" ]; then
-    echo "Testing"
-fi
-
-#Now build libraries
-
-read -p "Method for library build: old —>(o), or new --> (n)" ans
-if [ $ans = "n" ]; then
-        build_zlib $lib_dir
-        build_libpng $lib_dir
-        build_hdf5 $lib_dir
-        build_netcdf $lib_dir
-        build_jasper $lib_dir
-elif [ $ans = "o" ]; then
-        build_zlib_old $lib_dir
-        build_libpng_old $lib_dir
-        build_hdf5_old $lib_dir
-        build_netcdf_old $lib_dir
-        build_jasper_old $lib_dir
-fi
-
-export NETCDF=$bw_dir/wrf_libs_intel/
-export HDF5=$bw_dir/wrf_libs_intel/
+###################################################
+########## B U I L D  L I B R A R I E S  ##########
+###################################################
 
 
-
-#Now we will build wrf
-cd $bw_dir
-wget https://github.com/wrf-model/WRF/releases/download/v4.5.2/v4.5.2.tar.gz
-tar xvf v4.5.2.tar.gz >& wrftar.txt
-rm v4.5.2.tar.gz
-rm wrftar.txt
-mv WRFV4.5.2/* WRF/
-rm -rf WRFV4.5.2
-
-#The following grabs the latest wrf
-#wget https://github.com/wrf-model/WRF/releases/download/v4.6.0/v4.6.0.tar.gz
-#tar xvf v4.6.0.tar.gz >& wrftar.txt
-#rm v4.6.0.tar.gz
-#rm wrftar.txt
-#mv WRFV4.6.0/* WRF/
-#rm -rf WRFV4.6.0
-#----------------------------- MUST be chmod u+x'd\
-. ../automated_programs/auto_resources/recompile_wrf.sh $bw_dir
-#-----------------------------
-
-#now build WPS
-wget https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz
-tar xvf v4.5.tar.gz >& wpstar.txt
-rm v4.5.tar.gz
-rm wpstar.txt
-mv WPS-4.5/* WPS/
-rm -rf WPS-4.5/
+build_zlib $lib_dir
+build_libpng $lib_dir
+build_hdf5 $lib_dir
+build_netcdf $lib_dir
+cmake_jasper $lib_dir
 
 
-#----------------------------- MUST be chmod u+x'd
-. ../automated_programs/auto_resources/recompile_wps.sh $bw_dir
-#-----------------------------
+###########################################
+########## C O M P I L E  W R F  ##########
+###########################################
 
-#fi}
+build_wrf $bw_dir 
+recompile_wrf $bw_dir 
+
+###########################################
+########## C O M P I L E  W P S  ##########
+###########################################
+
+build_wps $bw_dir 
+recompile_wps $bw_dir 
+
+
+
+
+
+
+
+

@@ -1,10 +1,17 @@
 #!/bin/bash
 
-#To do
-# OPTIONAL -- Add support for ADIOS2
-#        --> This script contains library building functions
+#handy func for cd
 
-########################### VERSIONS ##########################
+verbose_cd() {
+    printf "\nLeaving $(pwd)\n"
+    cd $1
+    printf "\nEntering $(pwd)\n"
+}
+
+mktitle() {
+    printf "\n************* --> $1 <-- *************\n"
+}
+
 
 #The package id chooses a group of working library combinations, 0 is old (working), 1 is more modern (untested)
 #NOTE netcdf and jasper are duplicated as already operating at latest version
@@ -56,17 +63,18 @@ jasper_v=(${jasper_tar//".tar"/ })
 
 
 ####### FUNCTIONS NEW ############################
-
+#---------------------------------------------------------- zlib
 build_zlib() {
+    mktitle "zlib"
     wget $zlib_url
     tar xvf $zlib_tar >& zlibtar.log
-    cd $zlib_v
+    verbose_cd $zlib_v
     ./configure --prefix=$1 >& zlibconfig.txt
     echo "Making zlib..."
     make >& zlibmake.log
     make install >& zlibinstall.log
     #check it worked
-    if [ ! -f $1include/zlib.h ]; then
+    if [ ! -f $1/include/zlib.h ]; then
         echo "zlib build error"
         kill -INT $$
     else
@@ -77,18 +85,20 @@ build_zlib() {
         rm zlibtar.log
     fi
 }
-#build_zlib "/Users/joshuacarter/Desktop/bashtestingdelete/intel_test/"
 
+
+#---------------------------------------------------------- libng
 build_libpng() {
+    mktitle "libpng"
     wget $libpng_url
     tar xvf $libpng_tar >& libpngtar.log
-    cd $libpng_v
+    verbose_cd $libpng_v
     ./configure --prefix=$1 >& libpngconfig.txt
     echo "Making libpng..."
     make >& libpngmake.log
     make install >& libpnginstall.log
     #check it worked
-    if [ ! -f $1include/pngconf.h ]; then
+    if [ ! -f $1/include/pngconf.h ]; then
         echo "libpng build error"
         kill -INT $$
     else
@@ -99,20 +109,23 @@ build_libpng() {
         rm libpngtar.log
     fi
 }
-#build_libpng "/Users/joshuacarter/Desktop/bashtestingdelete/intel_test/"
 
+
+#---------------------------------------------------------- hdf5
 build_hdf5() {
+    mktitle "hdf5"
     wget $hdf5_url
     tar xvf $hdf5_tar >& hdf5tar.log
-    cd $hdf5_v
+    verbose_cd $hdf5_v
     ./configure --prefix=$1 --with-zlib=$1 --enable-fortran >& hdf5config.txt
     echo "Making HDF5..."
     make >& hdf5make.log
     make install >& hdf5install.log
-    if [ ! -f $1include/H5FDcore.h ]; then
+    if [ ! -f $1/include/H5FDcore.h ]; then
         echo "hdf5 build error"
         kill -INT $$
     else
+        export HDF5=$bw_dir/wrf_libs_intel/
         echo "cleaning up"
         cd ../
         rm $hdf5_tar
@@ -120,26 +133,26 @@ build_hdf5() {
         rm hdf5tar.log
     fi
 }
-#build_hdf5 "/Users/joshuacarter/Desktop/bashtestingdelete/intel_test/"
 
+#---------------------------------------------------------- netcdf
 build_netcdf () {
+    mktitle "netcdf"
     wget $netcdf_url
     tar xvf $netcdf_tar >& netcdftar.log
     echo $netcdf_v
-    cd $netcdf_v
-    pwd
-    export LD_LIBRARY_PATH="$1lib:$LD_LIBRARY_PATH"
-    export LDFLAGS="-L$1lib"
-    export CPPFLAGS="-I$1include"
+    verbose_cd $netcdf_v
+    export LD_LIBRARY_PATH="$1/lib:$LD_LIBRARY_PATH"
+    export LDFLAGS="-L$1/lib"
+    export CPPFLAGS="-I$1/include"
     ./configure --prefix=$1 --disable-byterange >& netcdfconfig.txt
     echo "Making NETCDF..."
     make >& netcdfmake.log
     make install >& netcdfinstall.log
-    if [ ! -f $1include/netcdf.h ]; then
+    if [ ! -f $1/include/netcdf.h ]; then
     echo "netcdf build error"
         kill -INT $$
     else
-        cd ../
+        verbose_cd ../
         echo "cleaning up"
         rm $netcdf_tar
         rm -r $netcdf_v
@@ -148,16 +161,17 @@ build_netcdf () {
 
     wget $netcdfF_url
     tar xvf $netcdfF_tar >& netcdfFtar.log
-    cd $netcdfF_v  
+    verbose_cd $netcdfF_v  
     ./configure --prefix=$1  >& netcdfFconfig.txt
     echo "Making NETCDF (Fortran)..."
     make >& netcdfFmake.log
     make install >& netcdfFinstall.log
-    if [ ! -f $1include/netcdf_nf_interfaces.mod ]; then
+    if [ ! -f $1/include/netcdf_nf_interfaces.mod ]; then
     echo "netcdf Fortran build error"
         kill -INT $$
     else
-        cd ../
+        export NETCDF=$bw_dir/wrf_libs_intel/
+        verbose_cd ../
         echo "cleaning up"
         rm $netcdfF_tar
         rm -r $netcdfF_v
@@ -165,6 +179,7 @@ build_netcdf () {
     fi
 }
 
+#---------------------------------------------------------- jasper
 cmake_jasper () {
     wget $jasper_url
     tar xvf $jasper_tar >& jaspertar.log
@@ -172,16 +187,16 @@ cmake_jasper () {
     mkdir BUILD
     BUILD_DIR=$(pwd)/BUILD
     echo $BUILD_DIR
-    cd "jasper-$jasper_v"
+    verbose_cd "jasper-$jasper_v"
     #Must include LIBDIR or will install by default in lib64
     cmake  -B$BUILD_DIR -DCMAKE_INSTALL_PREFIX=$1 -DCMAKE_INSTALL_LIBDIR=lib
     cmake --build $BUILD_DIR
     cmake --build $BUILD_DIR --target install
-    if [ ! -f $1include/jasper/jasper.h ]; then
+    if [ ! -f $1/include/jasper/jasper.h ]; then
     echo "jasper build error"
         kill -INT $$
     else
-        cd ../
+        verbose_cd ../
         echo "cleaning up"
         rm $jasper_tar
         rm -r "jasper-$jasper_v"
@@ -190,19 +205,21 @@ cmake_jasper () {
     fi
 }
 
+
 build_jasper () {
+    mktitle "jasper"
     wget $jasper_url
     tar xvf $jasper_tar >& jaspertar.log
-    cd $jasper_v
+    verbose_cd $jasper_v
     ./configure --prefix="$1" >& jasperconfig.txt
     echo "Making jasper..."
     make >& jaspermake.log
     make install >& jasperinstall.log
-    if [ ! -f $1include/jasper/jasper.h ]; then
+    if [ ! -f $1/include/jasper/jasper.h ]; then
     echo "jasper build error"
         kill -INT $$
     else
-        cd ../
+        verbose_cd ../
         echo "cleaning up"
         rm $jasper_tar
         rm -r $jasper_v
@@ -211,132 +228,8 @@ build_jasper () {
 }
 
 
-build_zlib_old() {
-    wget https://zlib.net/fossils/zlib-1.2.11.tar.gz
-    tar xvf zlib-1.2.11.tar.gz >& zlibtar.log
-    cd zlib-1.2.11/
-    ./configure --prefix=$1 >& zlibconfig.txt
-    echo "Making zlib..."
-    make >& zlibmake.log
-    make install >& zlibinstall.log
-    #check it worked
-    if [ ! -f $1include/zlib.h ]; then
-        echo "zlib build error"
-        kill -INT $$
-    else
-        echo "cleaning up"
-        cd ../
-        rm zlib-1.2.11.tar.gz
-        rm -r zlib-1.2.11
-        rm zlibtar.log
-    fi
-}
 
 
-build_libpng_old() {
-  wget https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.xz
-    xz -d -v libpng-1.6.37.tar.xz >& libpngxz.log
-    tar xvf libpng-1.6.37.tar >& libpngtar.log
-    cd libpng-1.6.37/
-    ./configure --prefix="$1" >& libpngconfig.txt
-    echo "Making libpng..."
-    make >& libpngmake.log
-    make install >& libpnginstall.log
-    if [ ! -f $1include/libpng16/pnglibconf.h ]; then
-        echo "libpng build error"
-        kill -INT $$
-    else
-        cd ../
-        echo "cleaning up"
-        rm libpng-1.6.37.tar.xz
-        rm libpng-1.6.37.tar
-        rm -r libpng-1.6.37
-        rm libpngtar.log
-        rm libpngxz.log
-    fi
-}
 
-build_hdf5_old() {
-    wget https://hdf-wordpress-1.s3.amazonaws.com/wp-content/uploads/manual/HDF5/HDF5_1_12_0/source/hdf5-1.12.0.tar.gz 
-    tar xvf hdf5-1.12.0.tar.gz >& hdf5tar.log
-    cd hdf5-1.12.0
-    ./configure --prefix=$1 --with-zlib=$1 --enable-fortran >& hdf5config.txt
-    echo "Making HDF5..."
-    make >& hdf5make.log
-    make install >& hdf5install.log
-    if [ ! -f $1include/H5FDcore.h ]; then
-    echo "libpng build error"
-        kill -INT $$
-    else
-        cd ../
-        echo "cleaning up"
-        rm hdf5-1.12.0.tar.gz
-        rm -r hdf5-1.12.0
-        rm hdf5tar.log
-    fi
-}
 
-build_netcdf_old() {
-    #both netcdf and netcdf fortran are required
-    wget https://downloads.unidata.ucar.edu/netcdf-c/4.9.2/netcdf-c-4.9.2.tar.gz
-    tar xvf netcdf-c-4.9.2.tar.gz >& netcdftar.log
-    cd netcdf-c-4.9.2
-    export LD_LIBRARY_PATH="$1lib:$LD_LIBRARY_PATH"
-    export LDFLAGS="-L$1lib"
-    export CPPFLAGS="-I$1include"
-    ./configure --prefix=$1 --disable-byterange >& netcdfconfig.txt
-    echo "Making NETCDF..."
-    make >& netcdfmake.log
-    make install >& netcdfinstall.log
-    if [ ! -f $1include/zlib.h ]; then
-    echo "libpng build error"
-        kill -INT $$
-    else
-        cd ../
-        echo "cleaning up"
-        rm netcdf-c-4.9.2.tar.gz
-        rm -r netcdf-c-4.9.2
-        rm netcdftar.log
-    fi
 
-    wget https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz
-    tar xvf netcdf-fortran-4.6.1.tar.gz >& netcdfFtar.log
-    cd netcdf-fortran-4.6.1  
-    ./configure --prefix=$1  >& netcdfFconfig.txt
-    echo "Making NETCDF (Fortran)..."
-    make >& netcdfFmake.log
-    make install >& netcdfFinstall.log
-    if [ ! -f $1include/zlib.h ]; then
-    echo "libpng build error"
-        kill -INT $$
-    else
-        cd ../
-        echo "cleaning up"
-        rm netcdf-fortran-4.6.1.tar.gz
-        rm -r netcdf-fortran-4.6.1
-        rm netcdfFtar.log
-        rm netcdfFmake.log
-        rm netcdfFinstall.log
-        rm netcdfFconfig.txt
-    fi
-}
-
-build_jasper_old() {
-    wget https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz
-    tar xvf jasper-1.900.29.tar.gz >& jaspertar.log
-    cd jasper-1.900.29/
-    ./configure --prefix="$1" >& jasperconfig.txt
-    echo "Making jasper..."
-    make >& jaspermake.log
-    make install >& jasperinstall.log
-    if [ ! -f $1include/zlib.h ]; then
-    echo "libpng build error"
-        kill -INT $$
-    else
-        cd ../
-        echo "cleaning up"
-        rm jasper-1.900.29.tar.gz
-        rm -r jasper-1.900.29
-        rm jaspertar.log
-    fi
-}
