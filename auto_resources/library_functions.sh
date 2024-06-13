@@ -189,7 +189,8 @@ cmake_jasper () {
     mkdir BUILD
     BUILD_DIR=$(pwd)/BUILD
     echo $BUILD_DIR
-    verbose_cd "jasper-$jasper_v"
+    #verbose_cd "jasper-$jasper_v" for version 4
+    verbose_cd $jasper_v
     #Must include LIBDIR or will install by default in lib64
     cmake  -B$BUILD_DIR -DCMAKE_INSTALL_PREFIX=$1 -DCMAKE_INSTALL_LIBDIR=lib
     cmake --build $BUILD_DIR
@@ -201,7 +202,8 @@ cmake_jasper () {
         verbose_cd ../
         echo "cleaning up"
         rm $jasper_tar
-        rm -r "jasper-$jasper_v"
+        #rm -r "jasper-$jasper_v" for version 4
+        rm -r $jasper_v 
         rm -r BUILD
         rm jaspertar.log
     fi
