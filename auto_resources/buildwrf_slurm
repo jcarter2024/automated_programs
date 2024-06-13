@@ -1,0 +1,13 @@
+#!/bin/bash
+# 
+#SBATCH --job-name=test
+#SBATCH --output=build_log.txt
+#SBATCH --ntasks-per-node=1
+#SBATCH --nodes=1
+#SBATCH --time=01:30:00
+#SBATCH -p short-40core
+#SBATCH --mail-type=BEGIN,END
+#SBATCH --mail-user=joshua.carter@stonybrook.edu
+
+ulimit -s unlimited
+. full_build.sh
