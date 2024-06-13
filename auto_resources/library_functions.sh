@@ -33,7 +33,9 @@ netcdf_urls=( https://downloads.unidata.ucar.edu/netcdf-c/4.9.2/netcdf-c-4.9.2.t
 netcdfF_urls=( https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz https://downloads.unidata.ucar.edu/netcdf-fortran/4.6.1/netcdf-fortran-4.6.1.tar.gz )
 
 # ------ jasper
-jasper_urls=( https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz https://github.com/jasper-software/jasper/archive/refs/tags/version-4.2.4.tar.gz )
+jasper_urls=( https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.29.tar.gz https://github.com/jasper-software/jasper/releases/download/version-2.0.33/jasper-2.0.33.tar.gz )
+#https://github.com/jasper-software/jasper/archive/refs/tags/version-4.2.4.tar.gz
+#Why not Jasper 4? Or 3? --> Jasper error with these versions causes the ungrib executable to fail on build. "jpc_decode" error. 
 
 zlib_url=${zlib_urls[$package_id]}
 libpng_url=${libpng_urls[$package_id]}
