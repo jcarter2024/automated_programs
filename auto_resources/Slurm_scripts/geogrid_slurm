@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-#SBATCH --job-name=test
-#SBATCH --output=res.txt
+#SBATCH --job-name=geogrid
+#SBATCH --output=geogrid_out.txt
 #SBATCH --ntasks-per-node=1
 #SBATCH --nodes=1
 #SBATCH --time=15:00
-#SBATCH -p short-40core
+#SBATCH -p short-40core-shared
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=joshua.carter@stonybrook.edu
 

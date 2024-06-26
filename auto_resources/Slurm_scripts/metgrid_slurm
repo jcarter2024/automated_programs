@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-#SBATCH --job-name=test
-#SBATCH --output=res.txt
+#SBATCH --job-name=metgrid
+#SBATCH --output=metgrid_out.txt
 #SBATCH --ntasks-per-node=1
 #SBATCH --nodes=1
-#SBATCH --time==30:00
-#SBATCH -p short-40core
+#SBATCH --time=30:00
+#SBATCH -p short-40core-shared
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=joshua.carter@stonybrook.edu
 
