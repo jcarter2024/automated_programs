@@ -9,9 +9,9 @@
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=joshua.carter@stonybrook.edu
 
-module load intel/compiler/64/2019/19.0.4
-module load intel/mkl/64/2019/19.0.4
-module load intel/mpi/64/2019/19.0.4
+module load intel/compiler/64/2020/20.0.2
+module load intel/mkl/64/2020/20.0.2
+module load intel/mpi/64/2020/20.0.2
 
 #should be in /WRF
 bw_dir="/gpfs/home/jjcarter/MILAN_WRF/Build_WRF" #the location where Build_WRF is found (and built)

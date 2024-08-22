@@ -28,9 +28,9 @@ mkdir WRF
 mkdir WPS
 mkdir wrf_libs_intel
 
-module load intel/compiler/64/2019/19.0.4
-module load intel/mkl/64/2019/19.0.4
-module load intel/mpi/64/2019/19.0.4
+module load intel/compiler/64/2020/20.0.2
+module load intel/mkl/64/2020/20.0.2
+module load intel/mpi/64/2020/20.0.2
 
 bw_dir=$(pwd)
 lib_dir=$bw_dir/wrf_libs_intel

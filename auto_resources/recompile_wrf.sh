@@ -27,7 +27,7 @@ sed -i "s/^DM_FC.*/${mod1}/" configure.wrf
 sed -i "s/^DM_CC.*/${mod2}/" configure.wrf
 
 # Source mpi variables for compiler
-source /gpfs/software/intel/parallel-studio-xe/2019_4/bin/compilervars.sh -arch intel64
+source /gpfs/software/intel/parallel-studio-xe/2020_2/bin/compilervars.sh -arch intel64
 
 # now compile
 ./compile -j 4 em_real 2>&1 | tee compile.log 
